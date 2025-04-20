@@ -21,14 +21,14 @@ export default function MarketingPage(props: { disableCustomTheme?: boolean }) {
       <Hero />
       <div>
         {/* <LogoCollection /> */}
-        <Features />
-        <Divider />
+        {/* <Features />
+        <Divider /> */}
         {/* <Testimonials /> */}
         <Divider />
-        <Highlights />
-        <Divider />
+        {/* <Highlights />
+        <Divider /> */}
         {/* <Pricing /> */}
-        <Divider />
+        {/* <Divider /> */}
         <FAQ />
         <Divider />
         {/* <Footer /> */}

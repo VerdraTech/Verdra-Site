@@ -15,11 +15,13 @@
     "@mui/material": "latest",
     "@types/node": "^22.14.1",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-helmet": "^6.1.0"
   },
   "devDependencies": {
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@types/react-helmet": "^6.1.11",
     "@vitejs/plugin-react": "latest",
     "typescript": "latest",
     "vite": "latest"

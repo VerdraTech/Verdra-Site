@@ -11,6 +11,7 @@ import visuallyHidden from '@mui/utils/visuallyHidden';
 import { styled, useTheme } from '@mui/material/styles';
 import { Paper } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { Helmet } from 'react-helmet'; 
 
 const StyledBox = styled('div')(({ theme }) => ({
   alignSelf: 'center',
@@ -81,6 +82,15 @@ export default function Hero() {
   };
 
   return (
+    <>
+    
+    <Helmet>
+        <title>Verdra - Changing how we see code</title>
+        <link rel="icon" href="logoSymbol.png" type="image/svg+xml" />
+        {/* Fallback for browsers that don't support SVG favicons */}
+        {/* <link rel="alternate icon" href="/logoSymbol.png" type="image/png" /> */}
+      </Helmet>
+
     <Box
       id="hero"
       sx={(theme) => ({
@@ -117,7 +127,7 @@ export default function Hero() {
               fontSize: 'clamp(3rem, 10vw, 3.5rem)',
             }}
           >
-            Changing how we see&nbsp;
+            Let's fix&nbsp;
             <Typography
               component="span"
               variant="h1"
@@ -126,22 +136,13 @@ export default function Hero() {
                 color: 'primary.main',
                 ...theme.applyStyles('dark', {
                   color: 'primary.light',
+                  italicize: true,
                 }),
               })}
             >
-              code
+              Tech Debt
             </Typography>
           </Typography>
-          <Typography
-            sx={{
-              textAlign: 'center',
-              color: 'text.secondary',
-              width: { sm: '100%', md: '80%' },
-            }}
-          >
-            Explore how Verdra can help you save money on ALL of the code you write.
-          </Typography>
-          
           {/* GitHub URL Input Box */}
           <StyledPaper elevation={3}>
             <Typography
@@ -204,5 +205,7 @@ export default function Hero() {
         </Stack>
       </Container>
     </Box>
+    </>
+
   );
 }
