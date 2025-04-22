@@ -5,9 +5,24 @@ import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import ProTip from './ProTip';
 import MarketingPage from './marketing-page/MarketingPage';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export default function App() {
+const darkGreen = '#006400'; 
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: darkGreen,
+    },
+  },
+});
+
+function App() {
   return (
-    <MarketingPage />
+    <ThemeProvider theme={theme}>
+      <MarketingPage />
+    </ThemeProvider>
   );
 }
+
+export default App;

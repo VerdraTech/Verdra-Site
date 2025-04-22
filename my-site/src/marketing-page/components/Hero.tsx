@@ -2,41 +2,14 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import visuallyHidden from '@mui/utils/visuallyHidden';
 import { styled, useTheme } from '@mui/material/styles';
-import { Paper } from '@mui/material';
+import { Paper, CircularProgress } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { Helmet } from 'react-helmet'; 
-
-const StyledBox = styled('div')(({ theme }) => ({
-  alignSelf: 'center',
-  width: '100%',
-  height: 400,
-  marginTop: theme.spacing(8),
-  borderRadius: (theme.vars || theme).shape.borderRadius,
-  outline: '6px solid',
-  outlineColor: 'hsla(220, 25%, 80%, 0.2)',
-  border: '1px solid',
-  borderColor: (theme.vars || theme).palette.grey[200],
-  boxShadow: '0 0 12px 8px hsla(220, 25%, 80%, 0.2)',
-  backgroundImage: `url(${import.meta.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/screenshots/material-ui/getting-started/templates/dashboard.jpg)`,
-  backgroundSize: 'cover',
-  [theme.breakpoints.up('sm')]: {
-    marginTop: theme.spacing(10),
-    height: 700,
-  },
-  ...theme.applyStyles('dark', {
-    boxShadow: '0 0 24px 12px hsla(210, 100%, 25%, 0.2)',
-    backgroundImage: `url(${import.meta.env.TEMPLATE_IMAGE_URL || 'https://mui.com'}/static/screenshots/material-ui/getting-started/templates/dashboard-dark.jpg)`,
-    outlineColor: 'hsla(220, 20%, 42%, 0.1)',
-    borderColor: (theme.vars || theme).palette.grey[700],
-  }),
-}));
+import { Helmet } from 'react-helmet';
+import AnalysisResults from './AnalysisResults'; // Import the new premium results component
 
 // Styled Paper component for the GitHub URL input box
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -49,13 +22,17 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   width: '100%',
   maxWidth: '800px',
   borderRadius: '16px',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-  background: 'linear-gradient(145deg, #ffffff 0%, #f5f7fa 100%)',
+  boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08)',
+  background: 'linear-gradient(145deg, #ffffff 0%, #f7f9fc 100%)',
   border: '1px solid rgba(209, 213, 219, 0.3)',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    boxShadow: '0 16px 48px rgba(0, 0, 0, 0.1)',
+  },
   ...theme.applyStyles('dark', {
     background: 'linear-gradient(145deg, #1e293b 0%, #111827 100%)',
     border: '1px solid rgba(55, 65, 81, 0.5)',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+    boxShadow: '0 12px 40px rgba(0, 0, 0, 0.25)',
   }),
 }));
 
@@ -71,141 +48,260 @@ const StyledForm = styled('form')(({ theme }) => ({
   },
 }));
 
+// Styled GitHub input
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '10px',
+    transition: 'all 0.2s ease',
+    fontSize: '0.95rem',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    },
+    '&.Mui-focused': {
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#039956',
+        borderWidth: '2px',
+      },
+    },
+    '& .MuiInputAdornment-root': {
+      marginRight: theme.spacing(1),
+    },
+  },
+  ...theme.applyStyles('dark', {
+    '& .MuiOutlinedInput-root': {
+      backgroundColor: 'rgba(17, 25, 40, 0.8)',
+      '&:hover': {
+        backgroundColor: 'rgba(26, 32, 44, 0.9)',
+      },
+      '&.Mui-focused': {
+        backgroundColor: 'rgba(26, 32, 44, 0.9)',
+      },
+    },
+  }),
+}));
+
+// Styled submit button
+const SubmitButton = styled(Button)(({ theme }) => ({
+  height: 56,
+  padding: theme.spacing(0, 4),
+  borderRadius: '10px',
+  fontWeight: 600,
+  textTransform: 'none',
+  fontSize: '1rem',
+  boxShadow: '0 4px 14px rgba(3, 153, 86, 0.25)',
+  backgroundColor: '#039956',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    backgroundColor: '#027740',
+    boxShadow: '0 6px 20px rgba(3, 153, 86, 0.35)',
+    transform: 'translateY(-1px)',
+  },
+  '&:active': {
+    transform: 'translateY(1px)',
+    boxShadow: '0 2px 10px rgba(3, 153, 86, 0.25)',
+  },
+}));
+
+// Main heading with gradient effect
+const GradientTypography = styled(Typography)(({ theme }) => ({
+  fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+  fontWeight: 800,
+  letterSpacing: '-0.02em',
+  backgroundImage: 'linear-gradient(90deg, #039956, #06C270)',
+  backgroundClip: 'text',
+  textFillColor: 'transparent',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  marginBottom: theme.spacing(1),
+  filter: 'drop-shadow(0 2px 4px rgba(3, 153, 86, 0.15))',
+}));
+
 export default function Hero() {
   const theme = useTheme();
   const [githubUrl, setGithubUrl] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+  const [results, setResults] = React.useState(null);
+  const [error, setError] = React.useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Add your API call here
-    console.log('Submitting GitHub URL:', githubUrl);
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Extract the repository path from the GitHub URL
+      const repoPath = githubUrl.replace('https://github.com/', '').trim();
+      
+      if (!repoPath) {
+        throw new Error('Please enter a valid GitHub repository URL');
+      }
+      
+      console.log("Making API call for repo:", repoPath);
+      
+      // Call your local API - using GET method as your backend is configured for GET
+      const response = await fetch(`http://localhost:8000/scan?repo_url=https://github.com/${repoPath}`, {
+        method: 'GET',  // Explicitly using GET to match your backend
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log("API response:", data);
+      
+      if (data.error) {
+        throw new Error(`Analysis error: ${data.error}`);
+      }
+      
+      // Now we directly use the JSON response structure
+      setResults({
+        dbLoops: data.db_calls_in_loops || [],
+        loggingLoops: data.logging_in_loops || [],
+        unusedImports: data.unused_imports || [],
+        largeImports: data.large_imports || [],
+        unusedFunctions: data.unused_functions || []
+      });
+    } catch (err) {
+      console.error("Error during analysis:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
-    
-    <Helmet>
+      <Helmet>
         <title>Verdra - Changing how we see code</title>
-        <link rel="icon" href="logoSymbol.png" type="image/svg+xml" />
-        {/* Fallback for browsers that don't support SVG favicons */}
-        {/* <link rel="alternate icon" href="/logoSymbol.png" type="image/png" /> */}
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
       </Helmet>
 
-    <Box
-      id="hero"
-      sx={(theme) => ({
-        width: '100%',
-        backgroundRepeat: 'no-repeat',
-        backgroundImage:
-          'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 90%), transparent)',
-        ...theme.applyStyles('dark', {
-          backgroundImage:
-            'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(210, 100%, 16%), transparent)',
-        }),
-      })}
-    >
-      <Container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          pt: { xs: 14, sm: 20 },
-          pb: { xs: 8, sm: 12 },
-        }}
+      <Box
+        id="hero"
+        sx={(theme) => ({
+          width: '100%',
+          backgroundRepeat: 'no-repeat',
+          backgroundImage: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(3, 153, 86, 0.15), transparent)',
+          ...theme.applyStyles('dark', {
+            backgroundImage: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 194, 112, 0.1), transparent)',
+          }),
+        })}
       >
-        <Stack
-          spacing={2}
-          useFlexGap
-          sx={{ alignItems: 'center', width: { xs: '100%', sm: '70%' } }}
+        <Container
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            pt: { xs: 14, sm: 18 },
+            pb: { xs: 8, sm: 12 },
+          }}
         >
-          <Typography
+          <Stack
+            spacing={2}
+            useFlexGap
+            sx={{ alignItems: 'center', width: { xs: '100%', sm: '80%', md: '70%' } }}
+          >
+        <Typography
+          variant="h1"
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: 'center',
+            justifyContent: 'center', 
+            fontSize: 'clamp(3rem, 8vw, 3.5rem)',
+            textAlign: 'center',
+            width: '100%', 
+            fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+            fontWeight: 700,
+            // lineHeight: 1.2,
+            mb: 2,
+          }}
+        >
+          Let's fix&nbsp;
+          <GradientTypography
+            component="span"
             variant="h1"
             sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', sm: 'row' },
-              alignItems: 'center',
-              fontSize: 'clamp(3rem, 10vw, 3.5rem)',
+              fontSize: 'inherit',
             }}
           >
-            Let's fix&nbsp;
-            <Typography
-              component="span"
-              variant="h1"
-              sx={(theme) => ({
-                fontSize: 'inherit',
-                color: 'primary.main',
-                ...theme.applyStyles('dark', {
-                  color: 'primary.light',
-                  italicize: true,
-                }),
-              })}
-            >
-              Tech Debt
-            </Typography>
-          </Typography>
-          {/* GitHub URL Input Box */}
-          <StyledPaper elevation={3}>
-            <Typography
-              variant="h5"
-              sx={{
-                mb: 3,
-                fontWeight: 600,
-                color: 'text.primary',
-              }}
-            >
-              Analyze Your Repository
-            </Typography>
+            Tech Debt
+          </GradientTypography>
+        </Typography>
             
-            <Typography
-              sx={{
-                mb: 4,
-                textAlign: 'center',
-                color: 'text.secondary',
-              }}
-            >
-              Enter your GitHub repository URL to see how Verdra can optimize your codebase.
-            </Typography>
-            
-            <StyledForm onSubmit={handleSubmit}>
-              <TextField
-                fullWidth
-                id="github-url"
-                variant="outlined"
-                placeholder="https://github.com/username/repository"
-                value={githubUrl}
-                onChange={(e) => setGithubUrl(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <GitHubIcon color="action" sx={{ mr: 1 }} />
-                  ),
-                }}
+            {/* GitHub URL Input Box */}
+            <StyledPaper elevation={0}>
+              <Typography
+                variant="h5"
                 sx={{
-                  flexGrow: 1,
-                }}
-              />
-              
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                sx={{
-                  height: 56,
-                  px: 4,
-                  fontWeight: 600,
-                  backgroundColor: theme.palette.primary.main,
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.dark,
-                  },
+                  mb: 2,
+                  fontWeight: 700,
+                  color: 'text.primary',
+                  fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+                  letterSpacing: '-0.01em',
                 }}
               >
-                Analyze
-              </Button>
-            </StyledForm>
-          </StyledPaper>
-        </Stack>
-      </Container>
-    </Box>
+                Analyze Your Repository
+              </Typography>
+              
+              <Typography
+                sx={{
+                  mb: 4,
+                  textAlign: 'center',
+                  color: 'text.secondary',
+                  maxWidth: '600px',
+                  lineHeight: 1.6,
+                }}
+              >
+                Enter your GitHub repository URL to see how Verdra can identify and optimize technical debt in your codebase.
+              </Typography>
+              
+              <StyledForm onSubmit={handleSubmit}>
+                <StyledTextField
+                  fullWidth
+                  id="github-url"
+                  variant="outlined"
+                  placeholder="https://github.com/username/repository"
+                  value={githubUrl}
+                  onChange={(e) => setGithubUrl(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <GitHubIcon color="action" sx={{ mr: 1 }} />
+                    ),
+                  }}
+                  sx={{
+                    flexGrow: 1,
+                  }}
+                  error={!!error}
+                  helperText={error}
+                />
+                
+                <SubmitButton
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  disabled={loading}
+                >
+                  {loading ? <CircularProgress size={24} color="inherit" /> : 'Analyze'}
+                </SubmitButton>
+              </StyledForm>
+              
+              {/* Results Display using our new premium component */}
+              <AnalysisResults results={results} />
+              
+            </StyledPaper>
+          </Stack>
+        </Container>
+      </Box>
     </>
-
   );
 }
