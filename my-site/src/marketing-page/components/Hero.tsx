@@ -215,7 +215,7 @@ export default function Hero() {
           sx={{
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
-            alignItems: 'center',
+            // alignItems: 'center',
             justifyContent: 'center', 
             fontSize: 'clamp(3rem, 8vw, 3.5rem)',
             textAlign: 'center',
