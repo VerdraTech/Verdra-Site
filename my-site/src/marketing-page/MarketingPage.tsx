@@ -11,7 +11,7 @@ import Features from './components/Features';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
-
+import Signup from './components/Signup';
 export default function MarketingPage(props: { disableCustomTheme?: boolean }) {
   return (
     <AppTheme {...props}>
@@ -19,20 +19,22 @@ export default function MarketingPage(props: { disableCustomTheme?: boolean }) {
 
       <AppAppBar />
       <Hero />
-      <div>
+
         {/* <LogoCollection /> */}
         {/* <Features />
         <Divider /> */}
         {/* <Testimonials /> */}
-        <Divider />
+        {/* <Divider /> */}
+
         {/* <Highlights />
         <Divider /> */}
         {/* <Pricing /> */}
         {/* <Divider /> */}
+        <Signup />
         <FAQ />
         <Divider />
         {/* <Footer /> */}
-      </div>
+      
     </AppTheme>
   );
 }

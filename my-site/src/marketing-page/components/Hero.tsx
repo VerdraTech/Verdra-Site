@@ -141,7 +141,7 @@ export default function Hero() {
       console.log("Making API call for repo:", repoPath);
       
       // Call your local API - using GET method as your backend is configured for GET
-      const response = await fetch(`http://localhost:8000/scan?repo_url=https://github.com/${repoPath}`, {
+      const response = await fetch(`https://kr8obml2a4.execute-api.us-east-2.amazonaws.com/default/code-scanner-api-us-east-2/scan?repo_url=https://github.com/${repoPath}`, {
         method: 'GET',  // Explicitly using GET to match your backend
         headers: {
           'Accept': 'application/json'
@@ -190,8 +190,10 @@ export default function Hero() {
         sx={(theme) => ({
           width: '100%',
           backgroundRepeat: 'no-repeat',
-          backgroundImage: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(3, 153, 86, 0.15), transparent)',
-          ...theme.applyStyles('dark', {
+          backgroundImage: `
+          radial-gradient(ellipse 80% 60% at 50% -10%, rgba(78, 216, 190, 0.25), transparent),
+          linear-gradient(to bottom, #ffffff 0%, #f8fafa 100%)
+        `,          ...theme.applyStyles('dark', {
             backgroundImage: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 194, 112, 0.1), transparent)',
           }),
         })}
@@ -236,8 +238,9 @@ export default function Hero() {
           >
             Tech Debt
           </GradientTypography>
+          
         </Typography>
-            
+          
             {/* GitHub URL Input Box */}
             <StyledPaper elevation={0}>
               <Typography
