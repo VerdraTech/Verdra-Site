@@ -17,8 +17,8 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   padding: theme.spacing(4),
-  marginTop: theme.spacing(4),
-  marginBottom: theme.spacing(4),
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(1),
   width: "100%",
   maxWidth: "800px",
   borderRadius: "16px",
@@ -40,7 +40,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 const StyledForm = styled("form")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: theme.spacing(3),
+  gap: theme.spacing(2),
   width: "100%",
   [theme.breakpoints.up("sm")]: {
     flexDirection: "row",
@@ -257,7 +257,7 @@ export default function Hero() {
             flexDirection: "column",
             alignItems: "center",
             pt: { xs: 14, sm: 18 },
-            pb: { xs: 8, sm: 12 },
+            pb: { xs: 6, sm: 8 },
           }}
         >
           <Stack
@@ -268,34 +268,34 @@ export default function Hero() {
               width: { xs: "100%", sm: "80%", md: "70%" },
             }}
           >
-            <Typography
-              variant="h1"
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                // alignItems: 'center',
-                justifyContent: "center",
-                fontSize: "clamp(3rem, 8vw, 3.5rem)",
-                textAlign: "center",
-                width: "100%",
-                fontFamily:
-                  '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                fontWeight: 700,
-                // lineHeight: 1.2,
-                mb: 2,
-              }}
+            {/* Main Headline */}
+          <Typography variant="h1" sx={{ /* your clamp styling */ }}>
+            Slash{" "}
+            <GradientTypography
+              component="span"
+              variant="inherit"
+              sx={{ fontSize: "inherit" }}
             >
-              Let's fix&nbsp;
-              <GradientTypography
-                component="span"
-                variant="h1"
-                sx={{
-                  fontSize: "inherit",
-                }}
-              >
-                Tech Debt
-              </GradientTypography>
-            </Typography>
+              Serverless Costs
+            </GradientTypography>
+          </Typography>
+
+
+          {/* Tagline */}
+          <Typography
+            variant="h5"
+            sx={{
+              textAlign: "center",
+              fontSize: "clamp(1.25rem, 4vw, 1.5rem)",
+              fontWeight: 500,
+              color: "text.secondary",
+              mb: 2,
+            }}
+          >
+            Verdra’s static analysis uncovers inefficiencies that bloat your
+            cloud functions and drive up your bill
+          </Typography>
+
 
             {/* GitHub URL Input Box */}
             <StyledPaper elevation={0}>
@@ -310,7 +310,7 @@ export default function Hero() {
                   letterSpacing: "-0.01em",
                 }}
               >
-                Analyze Your Repository
+                Get Instant Insights
               </Typography>
 
               <Typography
@@ -322,8 +322,7 @@ export default function Hero() {
                   lineHeight: 1.6,
                 }}
               >
-                Enter your GitHub repository URL to see how Verdra can identify
-                and optimize technical debt in your codebase.
+                Paste your GitHub URL to uncover cost‑saving optimizations
               </Typography>
 
               <StyledForm onSubmit={handleSubmit}>
