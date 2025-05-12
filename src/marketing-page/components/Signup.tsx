@@ -4,12 +4,13 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
+import { styled, useTheme } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
-import { alpha, useTheme } from "@mui/material/styles";
+import { alpha} from "@mui/material/styles";
 
 interface SignupProps {
   // Optional props for customization
@@ -76,17 +77,17 @@ export default function Signup({
 
   return (
     <Box
-      sx={{
-        position: "relative",
-        py: { xs: 12, md: 16 },
-        background: isDarkMode
-          ? "linear-gradient(to bottom, transparent 0%, rgba(200, 255, 242, 0.03) 30%, rgba(200, 255, 242, 0.08) 50%, rgba(200, 255, 242, 0.03) 70%, transparent 100%)"
-          : "linear-gradient(to bottom, transparent 0%, rgba(13, 147, 115, 0.03) 30%, rgba(13, 147, 115, 0.08) 50%, rgba(13, 147, 115, 0.03) 70%, transparent 100%)",
-        overflow: "hidden",
-        minHeight: "90vh",
-        display: "flex",
-        alignItems: "center",
-      }}
+    sx={{
+      position: "relative",
+      py: { xs: 12, md: 16 },
+      background: isDarkMode 
+        ? "#0E1420" 
+        : "linear-gradient(to bottom, transparent 0%, rgba(13, 147, 115, 0.03) 30%, rgba(13, 147, 115, 0.08) 50%, rgba(13, 147, 115, 0.03) 70%, transparent 100%)",
+      overflow: "hidden",
+      minHeight: "90vh",
+      display: "flex",
+      alignItems: "center",
+    }}
     >
       {/* Enhanced background elements */}
       <Box
@@ -101,10 +102,11 @@ export default function Signup({
             isDarkMode ? "#fff" : "#000"
           } 2%, transparent 0%)`,
           backgroundSize: "40px 40px",
+          
         }}
       />
 
-      {/* Floating circles decoration */}
+      {/* Floating circles decoration in the background */}
       <Box
         sx={{
           position: "absolute",
@@ -153,6 +155,8 @@ export default function Signup({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            
+            
           }}
         >
           <Typography
@@ -182,9 +186,17 @@ export default function Signup({
               width: "100%",
               mx: "auto",
               borderRadius: 4,
-              backgroundColor: isDarkMode
-                ? "rgba(26, 32, 44, 0.9)"
-                : "rgba(255, 255, 255, 0.98)",
+              
+
+              // background: isDarkMode
+              // ? `
+              //   radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 194, 112, 0.1), transparent),
+              //   linear-gradient(to bottom, #111827 0%, #0E1420 100%)
+              // `
+              // : `
+              //   radial-gradient(ellipse 80% 60% at 50% -10%, rgba(78, 216, 190, 0.25), transparent),
+              //   linear-gradient(to bottom, #ffffff 0%, #f8fafa 100%)
+              // `,
               backdropFilter: "blur(20px)",
               boxShadow: isDarkMode
                 ? "0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05)"
@@ -224,8 +236,7 @@ export default function Signup({
                   Thank you for signing up!
                 </Typography>
                 <Typography>
-                  We're excited to have you on board. We'll be in touch soon
-                  with next steps.
+                  We're excited to have you on board. Stay tuned for updates.
                 </Typography>
               </Alert>
             ) : (
@@ -239,7 +250,7 @@ export default function Signup({
                         display: "block",
                         mb: 1.5,
                         ml: 1,
-                        color: isDarkMode ? "#E2E8F0" : "#1E293B",
+                        // color: isDarkMode ? "#1E293B":"#E2E8F0",
                         fontWeight: 600,
                         fontSize: "0.95rem",
                       }}
@@ -261,6 +272,7 @@ export default function Signup({
                           py: 1.5,
                           fontSize: "1rem",
                           caretColor: accentColor,
+                          color: isDarkMode ? "#F9FAFB" : "#1E293B",
                           backgroundColor: isDarkMode
                             ? alpha("#1E293B", 0.3)
                             : alpha("#f8fafc", 0.8),
@@ -304,7 +316,7 @@ export default function Signup({
                         display: "block",
                         mb: 1.5,
                         ml: 1,
-                        color: isDarkMode ? "#E2E8F0" : "#1E293B",
+                        // color: isDarkMode ? "#E2E8F0" : "#1E293B",
                         fontWeight: 600,
                         fontSize: "0.95rem",
                       }}
@@ -322,6 +334,7 @@ export default function Signup({
                           py: 1.5,
                           fontSize: "1rem",
                           caretColor: accentColor,
+                          color: isDarkMode ? "#F9FAFB" : "#1E293B",
                           backgroundColor: isDarkMode
                             ? alpha("#1E293B", 0.3)
                             : alpha("#f8fafc", 0.8),
@@ -365,7 +378,7 @@ export default function Signup({
                         display: "block",
                         mb: 1.5,
                         ml: 1,
-                        color: isDarkMode ? "#E2E8F0" : "#1E293B",
+                        // color: isDarkMode ? "#E2E8F0" : "#1E293B",
                         fontWeight: 600,
                         fontSize: "0.95rem",
                       }}
@@ -390,6 +403,7 @@ export default function Signup({
                           py: 1.5,
                           fontSize: "1rem",
                           caretColor: accentColor,
+                          color: isDarkMode ? "#F9FAFB" : "#1E293B",
                           backgroundColor: isDarkMode
                             ? alpha("#1E293B", 0.3)
                             : alpha("#f8fafc", 0.8),

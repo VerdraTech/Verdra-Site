@@ -120,6 +120,36 @@ const GradientTypography = styled(Typography, {
   filter: "drop-shadow(0 2px 4px rgba(3, 153, 86, 0.15))",
 }));
 
+// New component for displaying savings message with animation
+const SavingsBanner = styled(Box)(({ theme }) => ({
+  width: "100%",
+  marginTop: theme.spacing(4),
+  padding: theme.spacing(3),
+  borderRadius: "12px",
+  background: "rgba(255, 255, 255, 0.8)",
+  backdropFilter: "blur(10px)",
+  border: "1px solid rgba(209, 213, 219, 0.3)",
+  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.05)",
+  textAlign: "center",
+  transform: "translateY(0)",
+  animation: "fadeInUp 0.8s ease-out",
+  "@keyframes fadeInUp": {
+    "0%": {
+      opacity: 0,
+      transform: "translateY(20px)",
+    },
+    "100%": {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+  },
+  ...theme.applyStyles("dark", {
+    background: "rgba(26, 32, 44, 0.8)",
+    border: "1px solid rgba(55, 65, 81, 0.5)",
+    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)",
+  }),
+}));
+
 export default function Hero() {
   const theme = useTheme();
   const [githubUrl, setGithubUrl] = React.useState("");
@@ -132,6 +162,7 @@ export default function Hero() {
     unusedFunctions: any[];
   } | null>(null);
   const [error, setError] = React.useState(null);
+  const [savings, setSavings] = React.useState<number | null>(null);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -165,6 +196,11 @@ export default function Hero() {
 
       if (data.error) {
         throw new Error(`Analysis error: ${data.error}`);
+      }
+
+      // Extract the savings value from the response (if available)
+      if (data.savings !== undefined) {
+        setSavings(data.savings);
       }
 
       // Now we directly use the JSON response structure
@@ -324,8 +360,37 @@ export default function Hero() {
                 </SubmitButton>
               </StyledForm>
 
-              {/* Results Display using our new premium component */}
+              {/* Results Display using our premium component */}
               <AnalysisResults results={results} />
+
+              {/* New Savings Banner - shown only after results */}
+              {savings !== null && (
+              <SavingsBanner>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+                    fontWeight: 600,
+                    color: "text.primary",
+                    display: "inline",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  With Verdra, you can save{" "}
+                  <GradientTypography
+                    component="span"
+                    variant="inherit"
+                    sx={{
+                      fontWeight: 800,
+                      display: "inline",
+                    }}
+                  >
+                    ${savings.toFixed(2)}
+                  </GradientTypography>{" "}
+                  per month
+                </Typography>
+              </SavingsBanner>
+            )}
             </StyledPaper>
           </Stack>
         </Container>
