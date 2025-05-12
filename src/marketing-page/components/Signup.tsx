@@ -51,12 +51,12 @@ export default function Signup({
 
     try {
       // Replace with your actual API endpoint for Google Sheets
-      const response = await fetch("/api/beta-signup", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, organization, email }),
+        body: JSON.stringify({ name, email, organization }),
       });
 
       if (!response.ok) {
