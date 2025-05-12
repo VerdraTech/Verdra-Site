@@ -13,5 +13,6 @@ export default defineConfig({
   base: "/Verdra-Site/",
   build: {
     outDir: "build",
+    chunkSizeWarningLimit: 1600,
   },
 });
