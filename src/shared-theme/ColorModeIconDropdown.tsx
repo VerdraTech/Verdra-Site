@@ -19,6 +19,7 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
   };
   const handleMode = (targetMode: 'light' | 'dark') => () => {
     setMode(targetMode);
+
     handleClose();
   };
   if (!mode) {

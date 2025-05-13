@@ -1,82 +1,82 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import Typography, { TypographyProps } from "@mui/material/Typography";
-import { styled, useTheme } from "@mui/material/styles";
-import { Paper, CircularProgress } from "@mui/material";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import { Helmet } from "react-helmet";
-import AnalysisResults from "./AnalysisResults"; // Import the new premium results component
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Typography, { TypographyProps } from '@mui/material/Typography';
+import { styled, useTheme } from '@mui/material/styles';
+import { Paper, CircularProgress } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import { Helmet } from 'react-helmet';
+import AnalysisResults from './AnalysisResults'; // Import the new premium results component
 
 // Styled Paper component for the GitHub URL input box
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
   padding: theme.spacing(4),
   marginTop: theme.spacing(2),
   marginBottom: theme.spacing(1),
-  width: "100%",
-  maxWidth: "800px",
-  borderRadius: "16px",
-  boxShadow: "0 12px 40px rgba(0, 0, 0, 0.08)",
-  background: "linear-gradient(145deg, #ffffff 0%, #f7f9fc 100%)",
-  border: "1px solid rgba(209, 213, 219, 0.3)",
-  transition: "all 0.3s ease",
-  "&:hover": {
-    boxShadow: "0 16px 48px rgba(0, 0, 0, 0.1)",
+  width: '100%',
+  maxWidth: '800px',
+  borderRadius: '16px',
+  boxShadow: '0 12px 40px rgba(0, 0, 0, 0.08)',
+  background: 'linear-gradient(145deg, #ffffff 0%, #f7f9fc 100%)',
+  border: '1px solid rgba(209, 213, 219, 0.3)',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    boxShadow: '0 16px 48px rgba(0, 0, 0, 0.1)',
   },
-  ...theme.applyStyles("dark", {
-    background: "linear-gradient(145deg, #1e293b 0%, #111827 100%)",
-    border: "1px solid rgba(55, 65, 81, 0.5)",
-    boxShadow: "0 12px 40px rgba(0, 0, 0, 0.25)",
+  ...theme.applyStyles('dark', {
+    background: 'linear-gradient(145deg, #1e293b 0%, #111827 100%)',
+    border: '1px solid rgba(55, 65, 81, 0.5)',
+    boxShadow: '0 12px 40px rgba(0, 0, 0, 0.25)',
   }),
 }));
 
 // Styled form for the GitHub input
-const StyledForm = styled("form")(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
+const StyledForm = styled('form')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
   gap: theme.spacing(2),
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    flexDirection: "row",
-    alignItems: "flex-start",
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
 }));
 
 // Styled GitHub input
 const StyledTextField = styled(TextField)(({ theme }) => ({
-  "& .MuiOutlinedInput-root": {
-    borderRadius: "10px",
-    transition: "all 0.2s ease",
-    fontSize: "0.95rem",
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
-    "&:hover": {
-      backgroundColor: "rgba(255, 255, 255, 0.9)",
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '10px',
+    transition: 'all 0.2s ease',
+    fontSize: '0.95rem',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
     },
-    "&.Mui-focused": {
-      backgroundColor: "rgba(255, 255, 255, 0.9)",
-      "& .MuiOutlinedInput-notchedOutline": {
-        borderColor: "#039956",
-        borderWidth: "2px",
+    '&.Mui-focused': {
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#039956',
+        borderWidth: '2px',
       },
     },
-    "& .MuiInputAdornment-root": {
+    '& .MuiInputAdornment-root': {
       marginRight: theme.spacing(1),
     },
   },
-  ...theme.applyStyles("dark", {
-    "& .MuiOutlinedInput-root": {
-      backgroundColor: "rgba(17, 25, 40, 0.8)",
-      "&:hover": {
-        backgroundColor: "rgba(26, 32, 44, 0.9)",
+  ...theme.applyStyles('dark', {
+    '& .MuiOutlinedInput-root': {
+      backgroundColor: 'rgba(17, 25, 40, 0.8)',
+      '&:hover': {
+        backgroundColor: 'rgba(26, 32, 44, 0.9)',
       },
-      "&.Mui-focused": {
-        backgroundColor: "rgba(26, 32, 44, 0.9)",
+      '&.Mui-focused': {
+        backgroundColor: 'rgba(26, 32, 44, 0.9)',
       },
     },
   }),
@@ -86,73 +86,72 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 const SubmitButton = styled(Button)(({ theme }) => ({
   height: 56,
   padding: theme.spacing(0, 4),
-  borderRadius: "10px",
+  borderRadius: '10px',
   fontWeight: 600,
-  textTransform: "none",
-  fontSize: "1rem",
-  boxShadow: "0 4px 14px rgba(3, 153, 86, 0.25)",
-  backgroundColor: "#039956",
-  transition: "all 0.3s ease",
-  "&:hover": {
-    backgroundColor: "#027740",
-    boxShadow: "0 6px 20px rgba(3, 153, 86, 0.35)",
-    transform: "translateY(-1px)",
+  textTransform: 'none',
+  fontSize: '1rem',
+  boxShadow: '0 4px 14px rgba(3, 153, 86, 0.25)',
+  backgroundColor: '#039956',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    backgroundColor: '#027740',
+    boxShadow: '0 6px 20px rgba(3, 153, 86, 0.35)',
+    transform: 'translateY(-1px)',
   },
-  "&:active": {
-    transform: "translateY(1px)",
-    boxShadow: "0 2px 10px rgba(3, 153, 86, 0.25)",
+  '&:active': {
+    transform: 'translateY(1px)',
+    boxShadow: '0 2px 10px rgba(3, 153, 86, 0.25)',
   },
 }));
 
 // Main heading with gradient effect
 const GradientTypography = styled(Typography, {
-  shouldForwardProp: (prop) => prop !== "gradientAngle",
+  shouldForwardProp: (prop) => prop !== 'gradientAngle',
 })<TypographyProps>(({ theme }) => ({
   fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
   fontWeight: 800,
-  letterSpacing: "-0.02em",
-  backgroundImage: "linear-gradient(90deg, #039956, #06C270)",
-  backgroundClip: "text",
-  textFillColor: "transparent",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
+  letterSpacing: '-0.02em',
+  backgroundImage: 'linear-gradient(90deg, #039956, #06C270)',
+  backgroundClip: 'text',
+  textFillColor: 'transparent',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
   marginBottom: theme.spacing(1),
-  filter: "drop-shadow(0 2px 4px rgba(3, 153, 86, 0.15))",
+  filter: 'drop-shadow(0 2px 4px rgba(3, 153, 86, 0.15))',
 }));
 
 // New component for displaying savings message with animation
 const SavingsBanner = styled(Box)(({ theme }) => ({
-  width: "100%",
+  width: '100%',
   marginTop: theme.spacing(4),
   padding: theme.spacing(3),
-  borderRadius: "12px",
-  background: "rgba(255, 255, 255, 0.8)",
-  backdropFilter: "blur(10px)",
-  border: "1px solid rgba(209, 213, 219, 0.3)",
-  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.05)",
-  textAlign: "center",
-  transform: "translateY(0)",
-  animation: "fadeInUp 0.8s ease-out",
-  "@keyframes fadeInUp": {
-    "0%": {
+  borderRadius: '12px',
+  background: 'rgba(255, 255, 255, 0.8)',
+  backdropFilter: 'blur(10px)',
+  border: '1px solid rgba(209, 213, 219, 0.3)',
+  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.05)',
+  textAlign: 'center',
+  transform: 'translateY(0)',
+  animation: 'fadeInUp 0.8s ease-out',
+  '@keyframes fadeInUp': {
+    '0%': {
       opacity: 0,
-      transform: "translateY(20px)",
+      transform: 'translateY(20px)',
     },
-    "100%": {
+    '100%': {
       opacity: 1,
-      transform: "translateY(0)",
+      transform: 'translateY(0)',
     },
   },
-  ...theme.applyStyles("dark", {
-    background: "rgba(26, 32, 44, 0.8)",
-    border: "1px solid rgba(55, 65, 81, 0.5)",
-    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)",
+  ...theme.applyStyles('dark', {
+    background: 'rgba(26, 32, 44, 0.8)',
+    border: '1px solid rgba(55, 65, 81, 0.5)',
+    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
   }),
 }));
 
 export default function Hero() {
-  const theme = useTheme();
-  const [githubUrl, setGithubUrl] = React.useState("");
+  const [githubUrl, setGithubUrl] = React.useState('');
   const [loading, setLoading] = React.useState(false);
   const [results, setResults] = React.useState<{
     dbLoops: any[];
@@ -171,20 +170,18 @@ export default function Hero() {
 
     try {
       // Extract the repository path from the GitHub URL
-      const repoPath = githubUrl.replace("https://github.com/", "").trim();
+      const repoPath = githubUrl.replace('https://github.com/', '').trim();
 
       if (!repoPath) {
-        throw new Error("Please enter a valid GitHub repository URL");
+        throw new Error('Please enter a valid GitHub repository URL');
       }
-
-      console.log("Making API call for repo:", repoPath);
 
       // Call the API
       const response = await fetch(
         `${
           import.meta.env.VITE_API_URL
         }/scan?repo_url=https://github.com/${repoPath}`,
-        { method: "GET", headers: { Accept: "application/json" } }
+        { method: 'GET', headers: { Accept: 'application/json' } }
       );
 
       if (!response.ok) {
@@ -192,7 +189,6 @@ export default function Hero() {
       }
 
       const data = await response.json();
-      console.log("API response:", data);
 
       if (data.error) {
         throw new Error(`Analysis error: ${data.error}`);
@@ -212,7 +208,7 @@ export default function Hero() {
         unusedFunctions: data.unused_functions || [],
       });
     } catch (err: any) {
-      console.error("Error during analysis:", err);
+      console.error('Error during analysis:', err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -239,23 +235,23 @@ export default function Hero() {
       <Box
         id="hero"
         sx={(theme) => ({
-          width: "100%",
-          backgroundRepeat: "no-repeat",
+          width: '100%',
+          backgroundRepeat: 'no-repeat',
           backgroundImage: `
           radial-gradient(ellipse 80% 60% at 50% -10%, rgba(78, 216, 190, 0.25), transparent),
           linear-gradient(to bottom, #ffffff 0%, #f8fafa 100%)
         `,
-          ...theme.applyStyles("dark", {
+          ...theme.applyStyles('dark', {
             backgroundImage:
-              "radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 194, 112, 0.1), transparent)",
+              'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6, 194, 112, 0.1), transparent)',
           }),
         })}
       >
         <Container
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             pt: { xs: 14, sm: 18 },
             pb: { xs: 6, sm: 8 },
           }}
@@ -264,38 +260,43 @@ export default function Hero() {
             spacing={2}
             useFlexGap
             sx={{
-              alignItems: "center",
-              width: { xs: "100%", sm: "80%", md: "70%" },
+              alignItems: 'center',
+              width: { xs: '100%', sm: '80%', md: '70%' },
             }}
           >
             {/* Main Headline */}
-          <Typography variant="h1" sx={{ /* your clamp styling */ }}>
-            Slash{" "}
-            <GradientTypography
-              component="span"
-              variant="inherit"
-              sx={{ fontSize: "inherit" }}
+            <Typography
+              variant="h1"
+              sx={
+                {
+                  /* your clamp styling */
+                }
+              }
             >
-              Serverless Costs
-            </GradientTypography>
-          </Typography>
+              Slash{' '}
+              <GradientTypography
+                component="span"
+                variant="inherit"
+                sx={{ fontSize: 'inherit' }}
+              >
+                Serverless Costs
+              </GradientTypography>
+            </Typography>
 
-
-          {/* Tagline */}
-          <Typography
-            variant="h5"
-            sx={{
-              textAlign: "center",
-              fontSize: "clamp(1.25rem, 4vw, 1.5rem)",
-              fontWeight: 500,
-              color: "text.secondary",
-              mb: 2,
-            }}
-          >
-            Verdra’s static analysis uncovers inefficiencies that bloat your
-            cloud functions and drive up your bill
-          </Typography>
-
+            {/* Tagline */}
+            <Typography
+              variant="h5"
+              sx={{
+                textAlign: 'center',
+                fontSize: 'clamp(1.25rem, 4vw, 1.5rem)',
+                fontWeight: 500,
+                color: 'text.secondary',
+                mb: 2,
+              }}
+            >
+              Verdra’s static analysis uncovers inefficiencies that bloat your
+              cloud functions and drive up your bill
+            </Typography>
 
             {/* GitHub URL Input Box */}
             <StyledPaper elevation={0}>
@@ -304,10 +305,10 @@ export default function Hero() {
                 sx={{
                   mb: 2,
                   fontWeight: 700,
-                  color: "text.primary",
+                  color: 'text.primary',
                   fontFamily:
                     '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                  letterSpacing: "-0.01em",
+                  letterSpacing: '-0.01em',
                 }}
               >
                 Get Instant Insights
@@ -316,9 +317,9 @@ export default function Hero() {
               <Typography
                 sx={{
                   mb: 4,
-                  textAlign: "center",
-                  color: "text.secondary",
-                  maxWidth: "600px",
+                  textAlign: 'center',
+                  color: 'text.secondary',
+                  maxWidth: '600px',
                   lineHeight: 1.6,
                 }}
               >
@@ -354,7 +355,7 @@ export default function Hero() {
                   {loading ? (
                     <CircularProgress size={24} color="inherit" />
                   ) : (
-                    "Analyze"
+                    'Analyze'
                   )}
                 </SubmitButton>
               </StyledForm>
@@ -364,32 +365,33 @@ export default function Hero() {
 
               {/* New Savings Banner - shown only after results */}
               {savings !== null && (
-              <SavingsBanner>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-                    fontWeight: 600,
-                    color: "text.primary",
-                    display: "inline",
-                    lineHeight: 1.5,
-                  }}
-                >
-                  With Verdra, you can save{" "}
-                  <GradientTypography
-                    component="span"
-                    variant="inherit"
+                <SavingsBanner>
+                  <Typography
+                    variant="h6"
                     sx={{
-                      fontWeight: 800,
-                      display: "inline",
+                      fontFamily:
+                        '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+                      fontWeight: 600,
+                      color: 'text.primary',
+                      display: 'inline',
+                      lineHeight: 1.5,
                     }}
                   >
-                    ${savings.toFixed(2)}
-                  </GradientTypography>{" "}
-                  per month
-                </Typography>
-              </SavingsBanner>
-            )}
+                    With Verdra, you can save{' '}
+                    <GradientTypography
+                      component="span"
+                      variant="inherit"
+                      sx={{
+                        fontWeight: 800,
+                        display: 'inline',
+                      }}
+                    >
+                      ${savings.toFixed(2)}
+                    </GradientTypography>{' '}
+                    per month
+                  </Typography>
+                </SavingsBanner>
+              )}
             </StyledPaper>
           </Stack>
         </Container>

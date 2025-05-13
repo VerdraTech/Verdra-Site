@@ -30,7 +30,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     : alpha(theme.palette.background.default, 0.4),
   boxShadow: (theme.vars || theme).shadows[1],
   padding: '8px 12px',
-  maxHeight: 60, // Example: Set a maximum height for the toolbar
+  maxHeight: 60,
 }));
 
 export default function AppAppBar() {
