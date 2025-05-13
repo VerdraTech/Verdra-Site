@@ -3,16 +3,18 @@ import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
-import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../shared-theme/ColorModeIconDropdown';
 import logo from './logo.png';
+// import Button from "@mui/material/Button";
+// import IconButton from "@mui/material/IconButton";
+// import Divider from "@mui/material/Divider";
+// import MenuItem from "@mui/material/MenuItem";
+// import Drawer from "@mui/material/Drawer";
+// import MenuIcon from "@mui/icons-material/Menu";
+// import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -51,8 +53,10 @@ export default function AppAppBar() {
     >
       <Container maxWidth="lg">
         <StyledToolbar variant="dense" disableGutters>
-          <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 2 }}>
-            <img src ={logo} alt="Logo" width={120} height={120} />
+          <Box
+            sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 2 }}
+          >
+            <img src={logo} alt="Logo" width={120} height={120} />
             {/* <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Button variant="text" color="info" size="small">
                 Features
@@ -81,14 +85,14 @@ export default function AppAppBar() {
               alignItems: 'center',
             }}
           > */}
-            <ColorModeIconDropdown />
+          <ColorModeIconDropdown />
           {/* </Box> */}
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
+          {/* <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
             <ColorModeIconDropdown size="medium" />
             <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
-            <Drawer
+             <Drawer
               anchor="top"
               open={open}
               onClose={toggleDrawer(false)}
@@ -128,8 +132,8 @@ export default function AppAppBar() {
                   </Button>
                 </MenuItem>
               </Box>
-            </Drawer>
-          </Box>
+            </Drawer> 
+          </Box> */}
         </StyledToolbar>
       </Container>
     </AppBar>
